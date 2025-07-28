@@ -4,6 +4,7 @@ import puppeteer from 'puppeteer';
 const URL = 'https://www.coinglass.com/pro/i/alt-coin-season';
 const SELECTOR = 'div.MuiBox-root.cg-style-9qi30s';
 const CHROME_PATH = '/app/.chrome-for-testing/chrome-linux64/chrome';
+// const CHROME_PATH = '/chrome';
 
 // 간단한 딜레이 함수
 const delay = (ms) => new Promise((r) => setTimeout(r, ms));
