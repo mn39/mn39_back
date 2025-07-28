@@ -60,8 +60,8 @@ export async function getAltcoinIndex() {
       } else {
         console.log('⚠️ 값이 0–100 범위 아님, 재시도…');
       }
-    } catch {
-      console.log('❌ 셀렉터 못 찾음. 재시도…');
+    } catch (err) {
+      console.log('❌ 셀렉터 못 찾음. 재시도…', err.message);
     }
 
     // 재시도 준비
