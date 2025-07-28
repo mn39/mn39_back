@@ -28,7 +28,7 @@ async function safeGoto(page, url, options) {
 export async function getAltcoinIndex() {
   const browser = await puppeteer.launch({
     headless: 'new',
-    // executablePath: CHROME_PATH,
+    executablePath: CHROME_PATH,
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
