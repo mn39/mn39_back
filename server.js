@@ -1,4 +1,6 @@
+import 'dotenv/config';
 import { getAltcoinIndex } from './watchAltIndex.js';
+import { MongoClient } from 'mongodb';
 
 async function pollEvery10Minutes() {
   while (true) {
@@ -25,6 +27,7 @@ async function pollEvery10Minutes() {
         value: result.value,
         timestamp: new Date(result.timestamp), // Date 타입으로 저장
       });
+      console.log('✅ 데이터베이스에 저장 완료!');
     } else {
       console.log('⚠️ 유효한 값을 못 얻음. 다음 주기에 다시 시도.');
     }
