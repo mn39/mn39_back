@@ -21,23 +21,32 @@ app.use(
   })
 );
 
-const LOG_PATH = path.resolve('altcoin_index_log.csv');
+// 미리 하나만 연결해 두고 재사용해도 됩니다.
+let cachedClient;
+
+async function getClient() {
+  if (!cachedClient) {
+    cachedClient = new MongoClient(process.env.MONGODB_URI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+    });
+    await cachedClient.connect();
+  }
+  return cachedClient;
+}
 
 app.get('/latest', async (req, res) => {
   try {
-    const content = await fs.readFile(LOG_PATH, 'utf-8');
-    const lines = content.trim().split('\n');
+    const client = await getClient();
+    const col = client.db().collection('altcoinIndex_log');
 
-    if (lines.length === 0) {
-      return res.status(404).json({ error: 'No data available' });
-    }
+    const doc = await col.find().sort({ timestamp: -1 }).limit(1).next();
 
-    const lastLine = lines[lines.length - 1];
-    const [timestamp, value] = lastLine.split(',').map((s) => s.trim());
+    if (!doc) return res.status(404).json({ error: 'No data available' });
 
     res.json({
-      value: Number(value),
-      timestamp,
+      value: doc.value,
+      timestamp: doc.timestamp.toISOString(),
     });
   } catch (err) {
     console.error('❌ Error reading log:', err.message);

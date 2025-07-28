@@ -1,5 +1,4 @@
 import { getAltcoinIndex } from './watchAltIndex.js';
-import fs from 'fs/promises';
 
 async function pollEvery10Minutes() {
   while (true) {
@@ -10,8 +9,22 @@ async function pollEvery10Minutes() {
     if (result) {
       console.log('✅ 유효한 값 발견:', result);
 
-      const log = `${result.timestamp}, ${result.value}\n`;
-      await fs.appendFile('altcoin_index_log.csv', log, 'utf-8');
+      // 1) MongoDB 연결
+      const client = new MongoClient(process.env.MONGODB_URI, {
+        useNewUrlParser: true,
+        useUnifiedTopology: true,
+      });
+      await client.connect();
+
+      // 2) DB/컬렉션 선택
+      const db = client.db(); // URI 로 이미 DB 이름을 지정했다면 생략 가능
+      const col = db.collection('altcoinIndex_log');
+
+      // 3) Insert
+      await col.insertOne({
+        value: result.value,
+        timestamp: new Date(result.timestamp), // Date 타입으로 저장
+      });
     } else {
       console.log('⚠️ 유효한 값을 못 얻음. 다음 주기에 다시 시도.');
     }
