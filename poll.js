@@ -14,6 +14,8 @@ async function pollEvery10Minutes() {
   } else {
     console.log('⚠️ 유효한 값을 못 얻음. 다음 주기에 다시 시도.');
   }
+
+  process.exit(0); // 필수: 잡이 끝나면 종료
 }
 
 pollEvery10Minutes();
