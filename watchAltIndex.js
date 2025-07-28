@@ -3,8 +3,18 @@ import puppeteer from 'puppeteer';
 const URL = 'https://www.coinglass.com/pro/i/alt-coin-season';
 const SELECTOR = 'div.MuiBox-root.cg-style-9qi30s';
 
+const CHROME_PATH = '/app/.chrome-for-testing/chrome-linux64/chrome';
+
 export async function getAltcoinIndex() {
-  const browser = await puppeteer.launch();
+  const browser = await puppeteer.launch({
+    headless: 'new',
+    executablePath: CHROME_PATH, // ← 이 부분을 코드에 직접 지정
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+    ],
+  });
 
   const page = await browser.newPage();
   await page.goto(URL, { waitUntil: 'networkidle2', timeout: 0 });
