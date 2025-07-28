@@ -1,5 +1,4 @@
 import puppeteer from 'puppeteer';
-import fs from 'fs/promises';
 
 const URL = 'https://www.coinglass.com/pro/i/alt-coin-season';
 const SELECTOR = 'div.MuiBox-root.cg-style-9qi30s';
