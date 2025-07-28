@@ -6,8 +6,13 @@ const SELECTOR = 'div.MuiBox-root.cg-style-9qi30s';
 
 export async function getAltcoinIndex() {
   const browser = await puppeteer.launch({
+    executablePath: process.env.GOOGLE_CHROME_BIN,
     headless: 'new',
-    args: ['--no-sandbox', '--disable-setuid-sandbox'],
+    args: [
+      '--no-sandbox',
+      '--disable-setuid-sandbox',
+      '--disable-dev-shm-usage',
+    ],
   });
 
   const page = await browser.newPage();
