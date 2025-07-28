@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000; // 🔥 Heroku에선 이게 필수!
 const LOG_PATH = path.resolve('altcoin_index_log.csv');
 
 app.get('/latest', async (req, res) => {
@@ -29,5 +29,5 @@ app.get('/latest', async (req, res) => {
 });
 
 app.listen(PORT, () => {
-  console.log(`🚀 API 서버 실행 중: http://localhost:${PORT}/latest`);
+  console.log(`🚀 API 서버 실행 중 (PORT: ${PORT})`);
 });
