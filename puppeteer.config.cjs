@@ -3,9 +3,7 @@
 module.exports = {
   launch: {
     headless: 'new',
-    executablePath: process.env.PUPPETEER_CHROMIUM_REVISION
-      ? undefined
-      : process.env.GOOGLE_CHROME_SHIM || process.env.GOOGLE_CHROME_BIN,
+    executablePath: 'chrome', // ← 여기가 핵심!
     args: [
       '--no-sandbox',
       '--disable-setuid-sandbox',
