@@ -1,4 +1,5 @@
-const mongoose = require('mongoose');
+// yeyeon/models/image.js
+import mongoose from 'mongoose';
 
 const imageSchema = new mongoose.Schema({
   name: String,
@@ -8,4 +9,6 @@ const imageSchema = new mongoose.Schema({
     contentType: String,
   },
 });
-module.exports = mongoose.model('Image', imageSchema);
+
+const Image = mongoose.model('Image', imageSchema);
+export default Image;
